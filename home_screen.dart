@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/producto_provider.dart';
-import '../widgets/producto_card.dart';
-import '../widgets/search_bar_widget.dart';
+import 'producto_provider.dart';
+import 'producto_card.dart';
+import 'search_bar_widget.dart';
 import 'scanner_screen.dart';
 import 'producto_form_screen.dart';
 import 'import_screen.dart';
@@ -54,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         actions: [
-          // Botón de estadísticas
           IconButton(
             icon: const Icon(Icons.analytics_outlined, color: Colors.grey),
             onPressed: () {
@@ -67,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             tooltip: 'Estadísticas',
           ),
-          // Botón de importar
           IconButton(
             icon: const Icon(Icons.upload_file, color: Colors.grey),
             onPressed: () {
@@ -80,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             tooltip: 'Importar datos',
           ),
-          // Menú de opciones
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert, color: Colors.grey),
             onSelected: (value) {
@@ -120,14 +117,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          // Barra de búsqueda
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(16),
             child: const SearchBarWidget(),
           ),
-          
-          // Lista de productos
           Expanded(
             child: Consumer<ProductoProvider>(
               builder: (context, provider, child) {
@@ -160,12 +154,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      
-      // Botones de acción flotantes
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Botón de escaneo
           FloatingActionButton(
             heroTag: 'scan',
             onPressed: _abrirEscaner,
@@ -173,7 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const Icon(Icons.qr_code_scanner),
           ),
           const SizedBox(height: 16),
-          // Botón de agregar manual
           FloatingActionButton(
             heroTag: 'add',
             onPressed: _agregarProductoManual,
@@ -277,8 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _exportarDatos() async {
-    // Implementar exportación
+  void _exportarDatos() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Función de exportación en desarrollo'),
@@ -301,9 +291,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           TextButton(
             onPressed: () {
+              final messenger = ScaffoldMessenger.of(context);
               context.read<ProductoProvider>().limpiarBaseDatos();
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
+              messenger.showSnackBar(
                 const SnackBar(
                   content: Text('Base de datos limpiada'),
                 ),
